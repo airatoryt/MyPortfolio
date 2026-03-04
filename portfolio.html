@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P. David Sam Sundhar — The Absolute Monist</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap');
+  :root {
+    --neon:#00c8ff;--neon2:#0080ff;--white:#ffffff;--black:#000000;
+    --glow:0 0 10px #00c8ff,0 0 20px #00c8ff,0 0 40px #00c8ff;
+    --glow-strong:0 0 10px #00c8ff,0 0 30px #00c8ff,0 0 60px #00c8ff,0 0 100px #0080ff;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;overflow-x:hidden;}
+  body{background:var(--black);color:var(--white);font-family:'Rajdhani',sans-serif;overflow-x:hidden;cursor:none;}
+  #cursor{position:fixed;width:12px;height:12px;background:var(--neon);border-radius:50%;pointer-events:none;z-index:99999;box-shadow:var(--glow);transform:translate(-50%,-50%);transition:width .15s,height .15s;}
+  #cursor-ring{position:fixed;width:36px;height:36px;border:2px solid var(--neon);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:all .1s ease-out;opacity:.6;}
+  #particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+  #loader{position:fixed;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99990;transition:opacity .8s ease,visibility .8s;}
+  #loader.hidden{opacity:0;visibility:hidden;}
+  .loader-ring{width:120px;height:120px;border:3px solid transparent;border-top-color:var(--neon);border-radius:50%;animation:spin 1s linear infinite;}
+  .loader-ring2{position:absolute;width:90px;height:90px;border:2px solid transparent;border-bottom-color:var(--neon2);border-radius:50%;animation:spin 1.5s linear infinite reverse;}
+  .loader-text{margin-top:20px;font-family:'Orbitron',monospace;font-size:.75rem;letter-spacing:.4em;color:var(--neon);animation:pulse 1.2s ease-in-out infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  @keyframes pulse{0%,100%{opacity:.3;}50%{opacity:1;}}
+  nav{position:fixed;top:0;left:0;width:100%;padding:18px 40px;display:flex;align-items:center;justify-content:space-between;z-index:1000;background:linear-gradient(180deg,rgba(0,0,0,.95)0%,transparent 100%);backdrop-filter:blur(6px);border-bottom:1px solid rgba(0,200,255,.12);transition:all .4s;}
+  nav.scrolled{padding:12px 40px;background:rgba(0,0,0,.97);border-color:rgba(0,200,255,.3);}
+  .nav-logo{font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:900;color:var(--neon);text-shadow:var(--glow);letter-spacing:.12em;text-decoration:none;}
+  .nav-links{display:flex;gap:28px;list-style:none;}
+  .nav-links a{font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:rgba(255,255,255,.7);text-decoration:none;text-transform:uppercase;transition:color .3s,text-shadow .3s;position:relative;}
+  .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--neon);transition:width .3s;box-shadow:var(--glow);}
+  .nav-links a:hover{color:var(--neon);text-shadow:var(--glow);}
+  .nav-links a:hover::after{width:100%;}
+  section{position:relative;z-index:2;}
+  .container{max-width:1200px;margin:0 auto;padding:0 40px;}
+  #hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+  .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 50% 50%,rgba(0,128,255,.12)0%,transparent 70%);}
+  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,200,255,.04)1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,.04)1px,transparent 1px);background-size:60px 60px;animation:gridMove 20s linear infinite;}
+  @keyframes gridMove{to{background-position:60px 60px;}}
+  .hero-content{text-align:center;position:relative;z-index:2;transform:translateY(40px);opacity:0;animation:heroIn 1.2s cubic-bezier(.16,1,.3,1) .5s forwards;}
+  @keyframes heroIn{to{transform:translateY(0);opacity:1;}}
+  .hero-eyebrow{font-family:'Share Tech Mono',monospace;font-size:.75rem;letter-spacing:.5em;color:var(--neon);text-transform:uppercase;margin-bottom:20px;}
+  .hero-name{font-family:'Orbitron',monospace;font-size:clamp(2rem,6vw,5rem);font-weight:900;line-height:1.05;color:var(--white);text-shadow:0 0 80px rgba(0,200,255,.4);margin-bottom:10px;}
+  .hero-name span{color:var(--neon);text-shadow:var(--glow-strong);}
+  .hero-title{font-family:'Orbitron',monospace;font-size:clamp(.75rem,2vw,1.1rem);letter-spacing:.3em;color:rgba(255,255,255,.5);margin-bottom:30px;text-transform:uppercase;min-height:1.5em;}
+  .hero-circle{width:300px;height:300px;border-radius:50%;border:2px solid var(--neon);box-shadow:var(--glow-strong),inset 0 0 60px rgba(0,200,255,.1);margin:30px auto;position:relative;display:flex;align-items:center;justify-content:center;animation:breathe 4s ease-in-out infinite;}
+  .hero-circle::before{content:'';position:absolute;inset:-14px;border-radius:50%;border:1px solid rgba(0,200,255,.25);animation:spin 12s linear infinite reverse;}
+  .hero-circle::after{content:'';position:absolute;inset:-28px;border-radius:50%;border:1px solid rgba(0,200,255,.1);animation:spin 18s linear infinite;}
+  @keyframes breathe{0%,100%{box-shadow:var(--glow-strong),inset 0 0 60px rgba(0,200,255,.1);}50%{box-shadow:0 0 20px #00c8ff,0 0 60px #0080ff,0 0 120px #00c8ff,inset 0 0 80px rgba(0,200,255,.2);}}
+  .hero-circle-inner{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.25em;color:var(--neon);text-align:center;line-height:2;text-shadow:var(--glow);}
+  .hero-tagline{font-size:1.05rem;color:rgba(255,255,255,.65);max-width:580px;margin:0 auto 40px;line-height:1.8;}
+  .hero-cta{display:inline-flex;gap:20px;flex-wrap:wrap;justify-content:center;}
+  .btn{font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.2em;padding:14px 30px;text-decoration:none;text-transform:uppercase;border:1.5px solid var(--neon);color:var(--neon);background:transparent;cursor:pointer;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px)100%,0% 100%);transition:all .3s;position:relative;overflow:hidden;}
+  .btn::before{content:'';position:absolute;inset:0;background:var(--neon);transform:scaleX(0);transform-origin:left;transition:transform .3s;z-index:-1;}
+  .btn:hover{color:var(--black);text-shadow:none;box-shadow:var(--glow);}
+  .btn:hover::before{transform:scaleX(1);}
+  .btn-solid{background:var(--neon);color:var(--black);}
+  .btn-solid:hover{background:var(--white);border-color:var(--white);}
+  .scroll-ind{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;animation:bounce 2s ease-in-out infinite;font-family:'Share Tech Mono',monospace;font-size:.58rem;letter-spacing:.3em;color:rgba(0,200,255,.5);}
+  .scroll-ind::after{content:'';width:1px;height:46px;background:linear-gradient(var(--neon),transparent);display:block;}
+  @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(8px);}}
+  .neon-divider{height:1px;background:linear-gradient(90deg,transparent,var(--neon),transparent);box-shadow:0 0 10px var(--neon),0 0 20px var(--neon);border:none;opacity:.4;margin:0;}
+  .section-label{font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:.5em;color:var(--neon);text-transform:uppercase;margin-bottom:10px;display:block;}
+  .section-title{font-family:'Orbitron',monospace;font-size:clamp(1.6rem,4vw,2.8rem);font-weight:700;margin-bottom:50px;position:relative;display:inline-block;}
+  .section-title::after{content:'';position:absolute;bottom:-12px;left:0;width:55px;height:2px;background:var(--neon);box-shadow:var(--glow);}
+  #about{padding:120px 0;}
+  .about-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:80px;align-items:center;}
+  .avatar-ring{width:260px;height:260px;border-radius:50%;border:2px solid var(--neon);box-shadow:var(--glow),inset 0 0 40px rgba(0,200,255,.08);display:flex;align-items:center;justify-content:center;position:relative;animation:float 4s ease-in-out infinite;}
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-16px);}}
+  .avatar-initials{font-family:'Orbitron',monospace;font-size:2.8rem;font-weight:900;color:var(--neon);text-shadow:var(--glow-strong);}
+  .avatar-orbit{position:absolute;inset:-30px;border-radius:50%;border:1px dashed rgba(0,200,255,.3);animation:spin 22s linear infinite;}
+  .orbit-dot{position:absolute;width:10px;height:10px;background:var(--neon);border-radius:50%;box-shadow:var(--glow);top:50%;left:-5px;transform:translateY(-50%);}
+  .stats-row{display:flex;gap:44px;flex-wrap:wrap;margin:40px 0;}
+  .stat-num{font-family:'Orbitron',monospace;font-size:2.2rem;font-weight:900;color:var(--neon);text-shadow:var(--glow);display:block;}
+  .stat-label{font-size:.65rem;letter-spacing:.2em;color:rgba(255,255,255,.4);text-transform:uppercase;}
+  .info-card{background:rgba(0,200,255,.04);border:1px solid rgba(0,200,255,.14);padding:16px 22px;margin-bottom:12px;display:grid;grid-template-columns:130px 1fr;gap:10px;align-items:center;transition:all .3s;position:relative;overflow:hidden;}
+  .info-card::before{content:'';position:absolute;left:0;top:0;width:3px;height:100%;background:var(--neon);transform:scaleY(0);transition:transform .3s;}
+  .info-card:hover{background:rgba(0,200,255,.08);border-color:rgba(0,200,255,.4);transform:translateX(6px);}
+  .info-card:hover::before{transform:scaleY(1);}
+  .info-label{font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--neon);letter-spacing:.12em;}
+  .info-value{font-size:.92rem;color:rgba(255,255,255,.85);}
+  #philosophy{padding:120px 0;background:linear-gradient(180deg,transparent,rgba(0,60,120,.06),transparent);}
+  .phi-center{text-align:center;padding:40px 0;}
+  .phi-circle{width:180px;height:180px;margin:0 auto 40px;border:2px solid var(--neon);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:var(--glow-strong);animation:breathe 3s ease-in-out infinite;}
+  .phi-symbol{font-size:4.5rem;color:var(--neon);text-shadow:var(--glow-strong);line-height:1;}
+  .philosophy-quote{font-size:1.2rem;font-style:italic;color:rgba(255,255,255,.72);max-width:680px;margin:0 auto 24px;line-height:1.85;border-left:2px solid var(--neon);padding-left:22px;text-align:left;}
+  .holo-badge{display:inline-block;font-family:'Orbitron',monospace;font-size:.52rem;letter-spacing:.2em;padding:5px 12px;background:linear-gradient(135deg,rgba(0,200,255,.15),rgba(0,128,255,.1));border:1px solid rgba(0,200,255,.4);color:var(--neon);text-transform:uppercase;animation:holoPulse 2s ease-in-out infinite;margin:4px;}
+  @keyframes holoPulse{0%,100%{box-shadow:0 0 6px rgba(0,200,255,.3);}50%{box-shadow:0 0 14px rgba(0,200,255,.6);}}
+  #skills{padding:120px 0;}
+  .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:28px;margin-top:60px;}
+  .skill-category{background:rgba(0,200,255,.03);border:1px solid rgba(0,200,255,.12);padding:28px;transition:all .4s;position:relative;overflow:hidden;}
+  .skill-category::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(0,200,255,.08),transparent 70%);opacity:0;transition:opacity .4s;}
+  .skill-category:hover{border-color:rgba(0,200,255,.4);transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 30px rgba(0,200,255,.1);}
+  .skill-category:hover::before{opacity:1;}
+  .skill-cat-title{font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.22em;color:var(--neon);text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+  .skill-cat-title::before{content:'▶';font-size:.45rem;}
+  .skill-tags{display:flex;flex-wrap:wrap;gap:8px;}
+  .skill-tag{font-family:'Share Tech Mono',monospace;font-size:.62rem;padding:6px 13px;border:1px solid rgba(0,200,255,.28);color:rgba(255,255,255,.7);background:rgba(0,200,255,.05);transition:all .3s;cursor:default;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px)100%,0% 100%);}
+  .skill-tag:hover{border-color:var(--neon);color:var(--neon);background:rgba(0,200,255,.12);box-shadow:var(--glow);transform:scale(1.05);}
+  #projects{padding:120px 0;}
+  .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:28px;margin-top:60px;}
+  .project-card{background:rgba(0,200,255,.03);border:1px solid rgba(0,200,255,.14);padding:34px;position:relative;overflow:hidden;transition:all .4s;cursor:default;}
+  .project-card::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,200,255,.06),transparent);transition:left .6s;}
+  .project-card:hover::after{left:100%;}
+  .project-card:hover{border-color:var(--neon);transform:translateY(-8px) scale(1.01);box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 40px rgba(0,200,255,.12);}
+  .project-number{font-family:'Orbitron',monospace;font-size:2.8rem;font-weight:900;color:rgba(0,200,255,.08);position:absolute;top:18px;right:22px;line-height:1;}
+  .project-status{font-family:'Share Tech Mono',monospace;font-size:.58rem;letter-spacing:.3em;padding:4px 12px;border:1px solid;margin-bottom:14px;display:inline-block;text-transform:uppercase;}
+  .status-live{color:#00ff88;border-color:#00ff88;}
+  .status-active{color:var(--neon);border-color:var(--neon);}
+  .status-upcoming{color:#ffaa00;border-color:#ffaa00;}
+  .project-name{font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;margin-bottom:10px;}
+  .project-desc{font-size:.88rem;color:rgba(255,255,255,.58);line-height:1.7;margin-bottom:18px;}
+  .project-link{font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:.2em;color:var(--neon);text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:gap .3s;}
+  .project-link:hover{gap:14px;text-shadow:var(--glow);}
+  #education{padding:120px 0;}
+  .edu-card{background:rgba(0,200,255,.03);border:1px solid rgba(0,200,255,.14);padding:46px;position:relative;overflow:hidden;max-width:780px;margin-top:50px;transition:all .4s;}
+  .edu-card:hover{border-color:rgba(0,200,255,.5);box-shadow:0 0 60px rgba(0,200,255,.1);}
+  .edu-year{font-family:'Orbitron',monospace;font-size:3.5rem;font-weight:900;color:rgba(0,200,255,.08);position:absolute;top:18px;right:28px;}
+  .edu-degree{font-family:'Orbitron',monospace;font-size:1.05rem;font-weight:700;color:var(--neon);margin-bottom:8px;}
+  .edu-uni{font-size:.98rem;color:rgba(255,255,255,.8);margin-bottom:6px;}
+  .edu-period{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:rgba(0,200,255,.6);letter-spacing:.2em;}
+  #languages{padding:120px 0;background:linear-gradient(180deg,transparent,rgba(0,40,80,.05),transparent);}
+  .lang-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:28px;margin-top:60px;}
+  .lang-card{padding:28px;background:rgba(0,200,255,.03);border:1px solid rgba(0,200,255,.12);transition:all .4s;}
+  .lang-card:hover{border-color:rgba(0,200,255,.4);transform:translateY(-4px);}
+  .lang-card-title{font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:.22em;color:var(--neon);margin-bottom:16px;text-transform:uppercase;}
+  .lang-list{display:flex;flex-wrap:wrap;gap:8px;}
+  .lang-item{font-size:.8rem;padding:5px 12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.72);transition:all .3s;}
+  .lang-item:hover{border-color:var(--neon);color:var(--neon);background:rgba(0,200,255,.06);}
+  #interests{padding:120px 0;}
+  .interests-flex{display:flex;flex-wrap:wrap;gap:13px;margin-top:50px;}
+  .interest-bubble{font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:600;padding:10px 20px;border:1px solid rgba(0,200,255,.24);background:rgba(0,200,255,.04);color:rgba(255,255,255,.75);transition:all .3s;cursor:default;}
+  .interest-bubble:hover{border-color:var(--neon);color:var(--neon);background:rgba(0,200,255,.1);box-shadow:var(--glow);transform:scale(1.06) translateY(-3px);}
+  #contact{padding:120px 0 80px;}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:60px;align-items:start;}
+  .contact-item{display:flex;align-items:flex-start;gap:20px;padding:18px 0;border-bottom:1px solid rgba(0,200,255,.1);transition:all .3s;}
+  .contact-item:hover{padding-left:10px;border-color:rgba(0,200,255,.4);}
+  .contact-icon{color:var(--neon);font-size:1.1rem;margin-top:2px;min-width:22px;}
+  .contact-label{font-family:'Share Tech Mono',monospace;font-size:.58rem;color:rgba(0,200,255,.6);letter-spacing:.2em;display:block;margin-bottom:4px;}
+  .contact-val{font-size:.9rem;color:rgba(255,255,255,.8);}
+  .contact-val a{color:inherit;text-decoration:none;transition:color .3s;}
+  .contact-val a:hover{color:var(--neon);text-shadow:var(--glow);}
+  .social-links{display:flex;flex-direction:column;gap:14px;}
+  .social-link{display:flex;align-items:center;gap:16px;padding:16px 22px;border:1px solid rgba(0,200,255,.14);background:rgba(0,200,255,.03);text-decoration:none;color:rgba(255,255,255,.72);font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.18em;transition:all .4s;position:relative;overflow:hidden;}
+  .social-link::before{content:'';position:absolute;left:0;top:0;width:3px;height:100%;background:var(--neon);transform:scaleY(0);transition:transform .3s;}
+  .social-link:hover{color:var(--neon);border-color:rgba(0,200,255,.4);background:rgba(0,200,255,.07);transform:translateX(8px);}
+  .social-link:hover::before{transform:scaleY(1);}
+  footer{padding:36px;text-align:center;border-top:1px solid rgba(0,200,255,.1);font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:.2em;color:rgba(255,255,255,.25);}
+  footer span{color:var(--neon);}
+  .reveal{opacity:0;transform:translateY(50px);transition:opacity .8s ease,transform .8s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  .reveal-left{opacity:0;transform:translateX(-60px);transition:opacity .8s ease,transform .8s ease;}
+  .reveal-left.visible{opacity:1;transform:translateX(0);}
+  .reveal-right{opacity:0;transform:translateX(60px);transition:opacity .8s ease,transform .8s ease;}
+  .reveal-right.visible{opacity:1;transform:translateX(0);}
+  .glitch{position:relative;}
+  .glitch::before,.glitch::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;}
+  .glitch::before{color:#ff0080;animation:glitch1 4s infinite;clip-path:polygon(0 0,100% 0,100% 45%,0 45%);}
+  .glitch::after{color:#00ffff;animation:glitch2 4s infinite;clip-path:polygon(0 55%,100% 55%,100% 100%,0 100%);}
+  @keyframes glitch1{0%,95%,100%{transform:translateX(0);opacity:0;}96%{transform:translateX(-4px);opacity:.8;}97%{transform:translateX(4px);opacity:.8;}98%{transform:translateX(-2px);opacity:.8;}99%{transform:translateX(2px);opacity:.8;}}
+  @keyframes glitch2{0%,95%,100%{transform:translateX(0);opacity:0;}96%{transform:translateX(4px);opacity:.8;}97%{transform:translateX(-4px);opacity:.8;}98%{transform:translateX(2px);opacity:.8;}99%{transform:translateX(-2px);opacity:.8;}}
+  .typed-cursor{color:var(--neon);animation:blink .7s infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+  .scanline{position:fixed;inset:0;pointer-events:none;z-index:9999;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,200,255,.012)2px,rgba(0,200,255,.012)4px);}
+  ::-webkit-scrollbar{width:4px;}
+  ::-webkit-scrollbar-track{background:#000;}
+  ::-webkit-scrollbar-thumb{background:var(--neon);border-radius:2px;}
+  @media(max-width:768px){nav{padding:14px 20px;}.nav-links{display:none;}.container{padding:0 20px;}.about-grid,.contact-grid{grid-template-columns:1fr;}.hero-circle{width:220px;height:220px;}}
+</style>
+</head>
+<body>
+<div class="scanline"></div>
+<canvas id="particles"></canvas>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<div id="loader">
+  <div style="position:relative;display:flex;align-items:center;justify-content:center;">
+    <div class="loader-ring"></div>
+    <div class="loader-ring2"></div>
+  </div>
+  <div class="loader-text">INITIALIZING SYSTEM</div>
+</div>
+
+<nav id="navbar">
+  <a class="nav-logo" href="#hero">TAM</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#philosophy">Philosophy</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Portfolio — 2026</p>
+    <h1 class="hero-name glitch" data-text="P. David Sam Sundhar">P. David <span>Sam Sundhar</span></h1>
+    <p class="hero-title"><span id="typed-title"></span></p>
+    <div class="hero-circle">
+      <div class="hero-circle-inner">THE ABSOLUTE MONIST<br>∞ ∴ ∃ ⊕ ∀ ∴ ∞</div>
+    </div>
+    <p class="hero-tagline">Data Scientist · Philosopher · Innovator · Absolute Monist<br>Bridging the infinite with the computable.</p>
+    <div class="hero-cta">
+      <a class="btn btn-solid" href="#projects">View Projects</a>
+      <a class="btn" href="#contact">Get in Touch</a>
+    </div>
+  </div>
+  <div class="scroll-ind">SCROLL</div>
+</section>
+
+<hr class="neon-divider">
+
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div style="display:flex;align-items:center;justify-content:center;" class="reveal-left">
+        <div class="avatar-ring">
+          <div class="avatar-initials">DS</div>
+          <div class="avatar-orbit"><div class="orbit-dot"></div></div>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <span class="section-label">// system.whoami</span>
+        <h2 class="section-title">About Me</h2>
+        <p style="color:rgba(255,255,255,.7);line-height:1.8;margin-bottom:28px;font-size:1.02rem;">A 23-year-old Atheist Absolute Monist from Chennai, India — pursuing a Bachelor's in Computer Applications specialised in Data Science at VISTAS. My world is the intersection of code, consciousness, and cosmos.</p>
+        <div class="stats-row">
+          <div class="stat"><span class="stat-num" data-count="15">0</span><span class="stat-label">Languages</span></div>
+          <div class="stat"><span class="stat-num" data-count="13">0</span><span class="stat-label">Logics</span></div>
+          <div class="stat"><span class="stat-num" data-count="12">0</span><span class="stat-label">Phil. Branches</span></div>
+          <div class="stat"><span class="stat-num" data-count="7">0</span><span class="stat-label">Projects</span></div>
+        </div>
+        <div class="info-card"><span class="info-label">Full Name</span><span class="info-value">P. David Sam Sundhar</span></div>
+        <div class="info-card"><span class="info-label">Date of Birth</span><span class="info-value">12th June 2002</span></div>
+        <div class="info-card"><span class="info-label">Location</span><span class="info-value">Manapakkam, Chennai 600125, Tamil Nadu, India</span></div>
+        <div class="info-card"><span class="info-label">Belief System</span><span class="info-value">Atheist · Absolute Monist</span></div>
+        <div class="info-card"><span class="info-label">Email</span><span class="info-value"><a href="mailto:airatoryt@gmail.com" style="color:var(--neon);">airatoryt@gmail.com</a></span></div>
+        <div class="info-card"><span class="info-label">Phone</span><span class="info-value">+91 73051 85419</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="neon-divider">
+
+<section id="philosophy">
+  <div class="container">
+    <div class="phi-center reveal">
+      <span class="section-label">// core.belief_system</span>
+      <h2 class="section-title">Absolute Monism</h2>
+      <div class="phi-circle"><div class="phi-symbol">∞</div></div>
+      <blockquote class="philosophy-quote">"All is One — a single, undivided, absolute reality in which all apparent multiplicity is identical with one another."</blockquote>
+      <p style="color:rgba(255,255,255,.5);font-size:.9rem;line-height:1.85;max-width:680px;margin:20px auto;">Absolute Monism is my original philosophy, scientific theory, and mathematical framework — asserting that all things; existent or non-existent; are a singular, indivisible entity. This manifests in my work on the Monistic Inference Model (MIM), original logics, and mathematical algorithms documented in my ongoing book.</p>
+      <div style="margin-top:28px;">
+        <span class="holo-badge">Metaphysics</span><span class="holo-badge">Phil. of Mind</span><span class="holo-badge">Epistemology</span><span class="holo-badge">Quantum Logic</span><span class="holo-badge">Algebraic Logic</span><span class="holo-badge">Hyperintentional Logic</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="neon-divider">
+
+<section id="skills">
+  <div class="container">
+    <span class="section-label reveal">// system.capabilities</span>
+    <h2 class="section-title reveal">Skills & Expertise</h2>
+    <div class="skills-grid">
+      <div class="skill-category reveal">
+        <div class="skill-cat-title">Programming Languages</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span><span class="skill-tag">C</span><span class="skill-tag">C++</span><span class="skill-tag">Java</span><span class="skill-tag">HTML</span><span class="skill-tag">CSS</span><span class="skill-tag">JavaScript</span><span class="skill-tag">SQL</span><span class="skill-tag">x86-64 ASM</span><span class="skill-tag">Bash</span><span class="skill-tag">R</span><span class="skill-tag">Mathematica</span><span class="skill-tag">Vim Script</span><span class="skill-tag">Apache Pig</span><span class="skill-tag">Natural Language</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title">Core CS Skills</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Data Science</span><span class="skill-tag">Artificial Intelligence</span><span class="skill-tag">Machine Learning</span><span class="skill-tag">Prompt Engineering</span><span class="skill-tag">Vibe Coding</span><span class="skill-tag">Algorithm Optimisation</span><span class="skill-tag">SaaS Development</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title">Operating Systems</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Arch Linux</span><span class="skill-tag">Windows</span><span class="skill-tag">Android</span><span class="skill-tag">iOS</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title">Tools & Applications</div>
+        <div class="skill-tags">
+          <span class="skill-tag">NeoVim</span><span class="skill-tag">Jan</span><span class="skill-tag">VSCode</span><span class="skill-tag">Logseq</span><span class="skill-tag">Godot</span><span class="skill-tag">Blender GE</span><span class="skill-tag">BurpSuite</span><span class="skill-tag">Hashcat</span><span class="skill-tag">Git</span><span class="skill-tag">OpenClaw</span><span class="skill-tag">OnlyOffice</span><span class="skill-tag">Discord</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title">Logic Systems</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Classical</span><span class="skill-tag">Propositional</span><span class="skill-tag">Quantified</span><span class="skill-tag">Predicate</span><span class="skill-tag">Alethic</span><span class="skill-tag">Deontic</span><span class="skill-tag">Temporal</span><span class="skill-tag">Quantum</span><span class="skill-tag">Algebraic</span><span class="skill-tag">Boolean</span><span class="skill-tag">Hyperintentional</span><span class="skill-tag">Doxastic</span><span class="skill-tag">Metalogic</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title">Philosophy Domains</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Epistemology</span><span class="skill-tag">Metaphysics</span><span class="skill-tag">Phil. of Language</span><span class="skill-tag">Phil. of Religion</span><span class="skill-tag">Phil. of Science</span><span class="skill-tag">Ethics</span><span class="skill-tag">MetaEthics</span><span class="skill-tag">Phil. of Mind</span><span class="skill-tag">Free Will</span><span class="skill-tag">Phil. of Time</span><span class="skill-tag">Phil. of Math</span><span class="skill-tag">Phil. of Logic</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="neon-divider">
+
+<section id="projects">
+  <div class="container">
+    <span class="section-label reveal">// system.projects</span>
+    <h2 class="section-title reveal">Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <div class="project-number">01</div>
+        <span class="project-status status-live">Live</span>
+        <h3 class="project-name">Absolute Monist Website</h3>
+        <p class="project-desc">A digital home for my philosophies, scientific innovations, and technological endeavours — documenting Absolute Monism and original research.</p>
+        <a class="project-link" href="https://absolutemonist.wixsite.com/home" target="_blank">Visit Site →</a>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-number">02</div>
+        <span class="project-status status-active">Active</span>
+        <h3 class="project-name">Absolute Monism</h3>
+        <p class="project-desc">My original philosophical framework, scientific theory, collection of mathematical algorithms, formal logics, and ongoing book. A unified theory of everything.</p>
+        <a class="project-link" href="https://absolutemonist.wixsite.com/home" target="_blank">Learn More →</a>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-number">03</div>
+        <span class="project-status status-active">Active</span>
+        <h3 class="project-name">ForgeOptix</h3>
+        <p class="project-desc">SaaS startup asserting optimisation of Time and Space complexities for any software by 10× to 1000×. Redefining performance boundaries.</p>
+        <a class="project-link" href="#contact">Contact →</a>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-number">04</div>
+        <span class="project-status status-active">Active</span>
+        <h3 class="project-name">CyberSentinel</h3>
+        <p class="project-desc">Collaborative ML program that detects dark patterns and malicious practices in e-commerce environments using behavioural analysis.</p>
+        <a class="project-link" href="https://github.com/airatoryt" target="_blank">GitHub →</a>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-number">05</div>
+        <span class="project-status status-upcoming">Upcoming</span>
+        <h3 class="project-name">NLPL</h3>
+        <p class="project-desc">Natural Language Programming Language — programming solely via natural language with its own Natural Language Compiler. Also capable of generating Turing Test prompts to challenge AI LLMs.</p>
+        <a class="project-link" href="https://github.com/airatoryt" target="_blank">Follow →</a>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-number">06</div>
+        <span class="project-status status-upcoming">Upcoming</span>
+        <h3 class="project-name">DisplayBlocks</h3>
+        <p class="project-desc">A system allowing extendable display sizes and orientations — reimagining how we interface with visual output at hardware and software levels.</p>
+        <a class="project-link" href="https://github.com/airatoryt" target="_blank">Follow →</a>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-number">07</div>
+        <span class="project-status status-upcoming">Upcoming</span>
+        <h3 class="project-name">MIM — Monistic Inference Model</h3>
+        <p class="project-desc">An integrated AI model capable of predicting or deriving information with tentative 100% perceptual accuracy — powered by specialised mathematical algorithms rooted in Absolute Monism.</p>
+        <a class="project-link" href="https://github.com/airatoryt" target="_blank">Follow →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="neon-divider">
+
+<section id="education">
+  <div class="container">
+    <span class="section-label reveal">// system.education</span>
+    <h2 class="section-title reveal">Education</h2>
+    <div class="edu-card reveal">
+      <div class="edu-year">2026</div>
+      <span class="holo-badge" style="margin-bottom:20px;display:inline-block;">Ongoing</span>
+      <h3 class="edu-degree">Bachelor of Computer Applications<br><span style="color:rgba(255,255,255,.7);font-size:.9rem;font-family:'Rajdhani',sans-serif;">Specialised in Data Science</span></h3>
+      <p class="edu-uni" style="margin-top:10px;">Vels Institute of Science, Technology and Advanced Studies (VISTAS), Pallavaram</p>
+      <p class="edu-period" style="margin-top:10px;">2023 — 2026</p>
+    </div>
+  </div>
+</section>
+
+<hr class="neon-divider">
+
+<section id="languages">
+  <div class="container">
+    <span class="section-label reveal">// system.languages</span>
+    <h2 class="section-title reveal">Languages & Domains</h2>
+    <div class="lang-grid">
+      <div class="lang-card reveal">
+        <div class="lang-card-title">Human Languages</div>
+        <div class="lang-list">
+          <span class="lang-item">English</span><span class="lang-item">Tamil</span><span class="lang-item">Hindi</span><span class="lang-item">Arabic</span><span class="lang-item">Hebrew</span><span class="lang-item">Greek</span><span class="lang-item">French</span><span class="lang-item">Latin</span>
+        </div>
+      </div>
+      <div class="lang-card reveal">
+        <div class="lang-card-title">Formal Interests</div>
+        <div class="lang-list">
+          <span class="lang-item">Data Science</span><span class="lang-item">Artificial Intelligence</span><span class="lang-item">Theoretical Physics</span><span class="lang-item">Mathematics</span><span class="lang-item">Logic</span><span class="lang-item">Analytic Philosophy</span><span class="lang-item">Business</span><span class="lang-item">Religion</span><span class="lang-item">Politics</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="neon-divider">
+
+<section id="interests">
+  <div class="container">
+    <span class="section-label reveal">// system.hobbies</span>
+    <h2 class="section-title reveal">Informal Interests</h2>
+    <div class="interests-flex">
+      <div class="interest-bubble">🎵 Singing</div><div class="interest-bubble">🎤 Beatbox</div><div class="interest-bubble">🎮 Gaming</div><div class="interest-bubble">🏊 Swimming</div><div class="interest-bubble">⌨️ aQWERTYon</div><div class="interest-bubble">🎸 Guitar</div><div class="interest-bubble">🎹 Piano</div><div class="interest-bubble">🥁 Drums</div><div class="interest-bubble">💃 Dancing</div><div class="interest-bubble">🤼 Wrestling</div><div class="interest-bubble">✍️ Writing</div><div class="interest-bubble">🎼 Song Writing</div><div class="interest-bubble">💬 Debating</div><div class="interest-bubble">⚔️ Apologetics</div><div class="interest-bubble">💪 Gymmaxxing</div><div class="interest-bubble">📚 Reading</div><div class="interest-bubble">🧠 Thinking</div>
+    </div>
+  </div>
+</section>
+
+<hr class="neon-divider">
+
+<section id="contact">
+  <div class="container">
+    <span class="section-label reveal">// system.contact</span>
+    <h2 class="section-title reveal">Get In Touch</h2>
+    <div class="contact-grid">
+      <div class="reveal-left">
+        <div class="contact-item"><div class="contact-icon">✉</div><div><span class="contact-label">Email</span><div class="contact-val"><a href="mailto:airatoryt@gmail.com">airatoryt@gmail.com</a></div></div></div>
+        <div class="contact-item"><div class="contact-icon">📱</div><div><span class="contact-label">Phone</span><div class="contact-val"><a href="tel:+917305185419">+91 73051 85419</a></div></div></div>
+        <div class="contact-item"><div class="contact-icon">📍</div><div><span class="contact-label">Location</span><div class="contact-val">Manapakkam, Chennai 600125<br>Tamil Nadu, India</div></div></div>
+        <div class="contact-item"><div class="contact-icon">🌐</div><div><span class="contact-label">Website</span><div class="contact-val"><a href="https://absolutemonist.wixsite.com/home" target="_blank">absolutemonist.wixsite.com/home</a></div></div></div>
+      </div>
+      <div class="social-links reveal-right">
+        <a class="social-link" href="https://github.com/airatoryt" target="_blank"><span style="min-width:22px">⌥</span> GitHub — airatoryt</a>
+        <a class="social-link" href="https://www.linkedin.com/in/david-sam-sundhar-p-95260928a/" target="_blank"><span style="min-width:22px;font-weight:900">in</span> LinkedIn — david-sam-sundhar-p</a>
+        <a class="social-link" href="https://leetcode.com/u/airator/" target="_blank"><span style="min-width:22px">{ }</span> LeetCode — airator</a>
+        <a class="social-link" href="https://orcid.org/0009-0002-6370-6978" target="_blank"><span style="min-width:22px">◉</span> ORCID — 0009-0002-6370-6978</a>
+        <a class="social-link" href="https://absolutemonist.wixsite.com/home" target="_blank"><span style="min-width:22px">∞</span> The Absolute Monist</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Designed & Built by <span>P. David Sam Sundhar</span> — The Absolute Monist &nbsp;·&nbsp; © 2026 &nbsp;·&nbsp; <span>∞ All is One ∞</span></p>
+</footer>
+
+<script>
+window.addEventListener('load',()=>{ setTimeout(()=>document.getElementById('loader').classList.add('hidden'),1800); });
+
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{ mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'; });
+(function ar(){ rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ar); })();
+
+const canvas=document.getElementById('particles'),ctx=canvas.getContext('2d');
+let W,H,P=[];
+function resize(){ W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight; }
+resize();window.addEventListener('resize',resize);
+class Pt{
+  constructor(){ this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*.35;this.vy=(Math.random()-.5)*.35;this.r=Math.random()*1.4+.3;this.a=Math.random()*.55+.1;this.c=Math.random()<.7?'0,200,255':'0,128,255'; }
+  update(){ this.x+=this.vx;this.y+=this.vy;if(this.x<0)this.x=W;if(this.x>W)this.x=0;if(this.y<0)this.y=H;if(this.y>H)this.y=0; }
+  draw(){ ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(${this.c},${this.a})`;ctx.fill(); }
+}
+for(let i=0;i<110;i++) P.push(new Pt());
+(function ap(){
+  ctx.clearRect(0,0,W,H);
+  P.forEach(p=>{ p.update();p.draw(); });
+  for(let i=0;i<P.length;i++) for(let j=i+1;j<P.length;j++){
+    const dx=P[i].x-P[j].x,dy=P[i].y-P[j].y,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<120){ ctx.beginPath();ctx.moveTo(P[i].x,P[i].y);ctx.lineTo(P[j].x,P[j].y);ctx.strokeStyle=`rgba(0,200,255,${(1-d/120)*.14})`;ctx.lineWidth=.5;ctx.stroke(); }
+  }
+  requestAnimationFrame(ap);
+})();
+
+window.addEventListener('scroll',()=>{ document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50); });
+
+const titles=['Data Scientist','Absolute Monist','AI Researcher','Algorithm Designer','Philosopher','Logician'];
+let ti=0,ci=0,del=false;
+const tel=document.getElementById('typed-title');
+function type(){
+  const t=titles[ti];
+  if(!del){ tel.innerHTML=t.slice(0,ci+1)+'<span class="typed-cursor">|</span>';ci++;if(ci===t.length){setTimeout(()=>del=true,1800);setTimeout(type,1800);return;} }
+  else{ tel.innerHTML=t.slice(0,ci-1)+'<span class="typed-cursor">|</span>';ci--;if(ci===0){del=false;ti=(ti+1)%titles.length;} }
+  setTimeout(type,del?55:85);
+}
+setTimeout(type,2200);
+
+const obs=new IntersectionObserver(entries=>{ entries.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);} }); },{threshold:.12});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(r=>obs.observe(r));
+
+const cobs=new IntersectionObserver(entries=>{ entries.forEach(e=>{ if(e.isIntersecting){animCount(e.target);cobs.unobserve(e.target);} }); },{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(el=>cobs.observe(el));
+function animCount(el){ const t=+el.getAttribute('data-count');let c=0;const inc=Math.ceil(t/50);const iv=setInterval(()=>{ c=Math.min(c+inc,t);el.textContent=c;if(c>=t)clearInterval(iv); },38); }
+
+document.querySelectorAll('.skill-category,.project-card,.lang-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect(),x=e.clientX-r.left-r.width/2,y=e.clientY-r.top-r.height/2;
+    const rx=-y/r.height*12,ry=x/r.width*12;
+    card.style.transform=`perspective(600px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(8px)`;
+  });
+  card.addEventListener('mouseleave',()=>{ card.style.transform=''; });
+});
+
+window.addEventListener('scroll',()=>{
+  const sy=window.scrollY;
+  const g=document.querySelector('.hero-grid');
+  if(g) g.style.transform=`translateY(${sy*.28}px)`;
+});
+
+document.addEventListener('mousemove',e=>{
+  const hc=document.querySelector('.hero-circle');
+  if(hc){ const dx=(e.clientX/window.innerWidth-.5)*18,dy=(e.clientY/window.innerHeight-.5)*18;hc.style.transform=`translate(${dx}px,${dy}px)`; }
+});
+
+document.addEventListener('click',e=>{
+  for(let i=0;i<8;i++){
+    const s=document.createElement('div');
+    s.style.cssText=`position:fixed;left:${e.clientX}px;top:${e.clientY}px;width:5px;height:5px;background:#00c8ff;border-radius:50%;pointer-events:none;z-index:99997;box-shadow:0 0 6px #00c8ff;`;
+    document.body.appendChild(s);
+    const ang=Math.random()*Math.PI*2,dist=30+Math.random()*55;
+    s.animate([{transform:'translate(-50%,-50%) scale(1)',opacity:1},{transform:`translate(calc(-50% + ${Math.cos(ang)*dist}px),calc(-50% + ${Math.sin(ang)*dist}px)) scale(0)`,opacity:0}],{duration:550,easing:'ease-out'}).onfinish=()=>s.remove();
+  }
+});
+</script>
+</body>
+</html>
