@@ -23,10 +23,6 @@
       <span style="color:#bfdbfe;">HTML5</span>, <span style="color:#facc15;">CSS3</span>, and 
       <span style="color:#60a5fa;">JavaScript</span>.
     </li>
-    <li style="margin-bottom: 0.4rem;">
-      <span style="color:#facc15; font-weight:600;">TheAbsoluteMonist.png</span>  
-      <span style="color:#e5e7eb;">– the project’s logo used across the portfolio.</span>
-    </li>
     <li>
       <span style="color:#e5e7eb; font-weight:600;">README.md</span>  
       <span style="color:#e5e7eb;">– documentation describing the repository and usage.</span>
