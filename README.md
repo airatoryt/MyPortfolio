@@ -18,7 +18,7 @@
 
   <ul style="list-style: none; padding-left: 0; margin: 0;">
     <li style="margin-bottom: 0.4rem;">
-      <span style="color:#60a5fa; font-weight:600;">MyPortfolio.html</span>  
+      <span style="color:#60a5fa; font-weight:600;">index.html</span>  
       <span style="color:#e5e7eb;">– main portfolio page using modern</span> 
       <span style="color:#bfdbfe;">HTML5</span>, <span style="color:#facc15;">CSS3</span>, and 
       <span style="color:#60a5fa;">JavaScript</span>.
@@ -26,6 +26,10 @@
     <li>
       <span style="color:#e5e7eb; font-weight:600;">README.md</span>  
       <span style="color:#e5e7eb;">– documentation describing the repository and usage.</span>
+    </li>
+    <li>
+      <span style="color:#e5e7eb; font-weight:600;">favicon.png</span>  
+      <span style="color:#e5e7eb;">– the simplified logo.</span>
     </li>
   </ul>
 
@@ -42,7 +46,7 @@
       <span style="color:#e5e7eb;">CSS3</span>, and <span style="color:#facc15;">JavaScript</span>.
     </li>
     <li style="color:#e5e7eb;">
-      Fully static setup – simply open <span style="color:#60a5fa;">MyPortfolio.html</span> in a browser to view the portfolio.
+      Fully static setup – simply open <span style="color:#60a5fa;">index.html</span> in a browser to view the portfolio.
     </li>
   </ul>
 
